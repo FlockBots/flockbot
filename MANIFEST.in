@@ -1,3 +1,0 @@
-recursive-include flockbot/helpers *.py
-recursive-include flockbot/models *.py
-recursive-include flockbot/tests *.py

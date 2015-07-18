@@ -15,6 +15,7 @@ setup(
         'Operating System :: OS Independent'
     ],
     keywords='reddit bot base',
-    packages=['flockbot'],
+    # packages=['flockbot'],
+    packages=find_packages(exclude=['contrib', 'docs']),
     install_requires=['sqlalchemy', 'praw']
 )
