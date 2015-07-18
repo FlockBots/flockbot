@@ -8,4 +8,4 @@ The module is based on PRAW and uses regex to check for calls to the bots in mes
 More info soon
 
 ## Testing
-A few tests have been added and can be run by typing `python -m unittest` in the Flockbot-pip directory.
+A few tests have been added and can be run by typing `python -m unittest`
