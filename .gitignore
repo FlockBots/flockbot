@@ -1,3 +1,7 @@
+# packaging
+*.egg-info/
+[Dd]ist/
+
 # virtualenv
 [Bb]in/
 [Ii]nclude/
