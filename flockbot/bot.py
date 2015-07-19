@@ -13,13 +13,14 @@ Callback = namedtuple('Callback', ['regex', 'function'])
 
 
 class Bot:
-    def __init__(self, configfile='log/bot.log'):
+    def __init__(self, databasefile='data/bot.db', configfile='log/bot.log'):
         self.message_callbacks = {}
         self.comment_callbacks = {}
         self.submission_callbacks = {}
 
         self.config = Config()
         self.config.set_logging(configfile)
+        self.config.set_database(databasefile)
         self.reply_text = ''
         self.logger = logging.getLogger(__name__)
 
