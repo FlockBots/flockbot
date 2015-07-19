@@ -54,5 +54,7 @@ class Config:
         self.footer = footer
 
     def set_subscriptions(self, subreddits):
+        if not isinstance(subreddits, list):
+            raise ValueError('Argument `subreddits` is not a list.')
         self.subreddits = subreddits
         self.complete['subscriptions'] = True
