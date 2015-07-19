@@ -17,7 +17,11 @@ class Config:
     def set_oauth_info(self, reddit, oauth_info, refresh_token):        
         reddit.set_oauth_app_info(oauth_info)
         reddit.refresh_access_information(refresh_token)
+        self.refresh_token = refresh_token
         self.complete['oauth'] = True
+
+    def refresh(self, reddit):
+        reddit.refresh_access_information(self.refresh_token)
 
     @property
     def database(self):

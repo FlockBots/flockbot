@@ -1,4 +1,5 @@
 import re
+import time
 from flockbot.decorators import rate_limited
 from flockbot.helpers import EditableContainer
 from flockbot.config import Config
@@ -203,3 +204,19 @@ class Bot:
         self.logger.info('Running bot')
         self.logger.info('\tUsername: {}'.format(me.name))
         self.logger.info('\tSubreddit: {}'.format(self.config.subreddits))
+        try:
+            if check_messages: self.check_messages()
+            for sub in self.config.subreddits:
+                if check_comments: self.check_comments(sub)
+                if check_submissions: self.check_submissions(sub)
+        except praw.errors.OAuthInvalidToken:
+            self.config.refresh(self.reddit)
+        except (praw.errors.HTTPException, ConnectionError):
+            self.logging.error('No connection ({})'.format(self.connection_error_count))
+            self.connection_error_count += 1
+            if self.connection_error_count > 5:
+                raise EnvironmentError('Unable to connect.')
+            else:
+                time.sleep(600)
+
+
