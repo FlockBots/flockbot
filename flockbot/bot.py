@@ -25,7 +25,7 @@ class Bot:
 
         self.config = Config()
         self.config.set_logging(configfile)
-        self.config.set_database(databasefile)
+        self.config.database = databasefile
         self.reply_text = ''
         self.logger = logging.getLogger(__name__)
 
