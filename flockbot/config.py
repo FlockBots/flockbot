@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from flockbot.models import Base
 
 import praw
 import logging
@@ -15,7 +16,7 @@ class Config:
         }
 
     def set_oauth_info(self, reddit, oauth_info, refresh_token):        
-        reddit.set_oauth_app_info(oauth_info)
+        reddit.set_oauth_app_info(**oauth_info)
         reddit.refresh_access_information(refresh_token)
         self.refresh_token = refresh_token
         self.complete['oauth'] = True
@@ -32,6 +33,7 @@ class Config:
     def database(self, filename):
         """ Create a sessionmaker """
         database_engine = create_engine('sqlite:///' + filename, echo=False)
+        Base.metadata.create_all(database_engine)
         self._database = sessionmaker(bind=database_engine)
         self.complete['database'] = True
 
