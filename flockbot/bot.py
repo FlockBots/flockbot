@@ -1,5 +1,6 @@
 import re
 import time
+import praw
 from flockbot.decorators import rate_limited
 from flockbot.helpers import EditableContainer
 from flockbot.config import Config
@@ -45,7 +46,7 @@ class Bot:
         useragent = useragent.strip()
         if not useragent:
             raise ValueError('Useragent cannot be empty.\nYou should include a small description and your username.')
-        self.reddit = praw.Reddit(useragent=useragent)
+        self.reddit = praw.Reddit(user_agent=useragent)
         self.config.set_oauth_info(self.reddit, oauth_info, refresh_token)
 
     def check_messages(self, mark_read=False):
