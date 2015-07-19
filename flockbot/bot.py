@@ -30,8 +30,11 @@ class Bot:
         self.reply_text = ''
         self.logger = logging.getLogger(__name__)
 
+    def get_database(self):
+        return self.config.database
+
     @contextmanager
-    def database(self):
+    def database_context(self):
         session = self.config.database
         try:
             yield session
@@ -64,7 +67,7 @@ class Bot:
         messages = self.reddit.get_unread(unset_has_mail=mark_read)
         total_read = 0
         for message in messages:
-            with self.database() as db:
+            with self.database_context() as db:
                 editable = Editable(message)
                 if db.query(Editable).filter(Editable.id == editable.id):
                     if mark_read:
@@ -90,7 +93,7 @@ class Bot:
         )
         for comment in comments:
             self.last_visited_comment[subreddit] = comment.id
-            with self.database() as db:
+            with self.database_context() as db:
                 editable = EditableContainer(comment)
                 if db.query(Editable).filter(Editable.id==editable.id):
                     continue
@@ -110,7 +113,7 @@ class Bot:
         )
         for submission in submissions:
             self.last_visited_submission[subreddit] = submission.id
-            with self.database() as db:
+            with self.database_context() as db:
                 editable = EditableContainer(submission)
                 if db.query(Editable).filter(Editable.id==editable.id):
                     continue
