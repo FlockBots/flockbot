@@ -133,6 +133,20 @@ class Bot:
             self.reply_to(editable)
         return has_callback
 
+    def attach_controller(self, controller):
+        if not hasattr(controller, 'callbacks'):
+            raise AttributeError('This controller has no registered callbacks.')
+        for editable, callbacks in controller.callbacks.items():
+            for callback in callbacks:
+                if editable == 'submission':
+                    self._register_callback(self.submission_callbacks, callback)
+                elif editable == 'comment':
+                    self._register_callback(self.comment_callbacks, callback)
+                elif editable == 'message':
+                    self._register_callback(self.message_callbacks, callback)
+                else:
+                    raise KeyError('Unknown callback type "{}".'.format(editable))
+
     def _register_callback(self, container, callback):
         """ Register a callback in the specified dictionary 
 
@@ -142,15 +156,6 @@ class Bot:
         """
         container.setdefault(callback.regex, [])\
                  .append(callback.function)
-
-    def register_message_callback(self, callback):
-        self._register_callback(self.message_callbacks, callback)
-
-    def register_comment_callback(self, callback):
-        self._register_callback(self.comment_callbacks, callback)
-
-    def register_submission_callback(self, callback):
-        self._register_callback(self.submission_callbacks, callback)
 
     def build_reply(self, text):
         """ Creates a new reply or appends to an existing one. """
