@@ -1,1 +1,1 @@
-from flockbot.controllers.callbackClass import CallbackClass
+from flockbot.controllers.controller import ControllerMeta
