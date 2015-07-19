@@ -125,8 +125,8 @@ class Bot:
             match = re.findall(regex, string, re.IGNORECASE)
             if match:
                 has_callback = True
-                for callback in functions:
-                    reply = callback(editable, match)
+                for callback_function in functions:
+                    reply = callback_function(editable, match)
                     if isinstance(reply, str):
                         self.build_reply(reply)
         if has_callback:
