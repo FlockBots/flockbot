@@ -214,6 +214,11 @@ class Bot:
         self.logger.info('Running bot')
         self.logger.info('\tUsername: {}'.format(me.name))
         self.logger.info('\tSubreddit: {}'.format(self.config.subreddits))
+        while True:
+            self.loop(check_messages, check_comments, check_submissions)
+        pass
+
+    def loop(self, check_messages=True, check_comments=True, check_submissions=True):
         try:
             if check_messages: self.check_messages()
             for sub in self.config.subreddits:
