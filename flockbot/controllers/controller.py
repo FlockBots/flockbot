@@ -6,7 +6,7 @@ class ControllerMeta(type):
         instance = type.__new__(cls, name, bases, dict(namespace))
         instance.callbacks = {}
         for obj in namespace.values():
-            callbacks = Controller.get_callbacks(instance, obj)
+            callbacks = ControllerMeta.get_callbacks(instance, obj)
             if callbacks:
                 for editable, callback in callbacks.items():
                     instance.callbacks.setdefault(editable, [])\
