@@ -18,6 +18,10 @@ class Bot:
         self.message_callbacks = {}
         self.comment_callbacks = {}
         self.submission_callbacks = {}
+        self.last_visited_comment = {}
+        self.last_visited_submission = {}
+
+        self.connection_error_count = 0
 
         self.config = Config()
         self.config.set_logging(configfile)
@@ -77,13 +81,14 @@ class Bot:
         """ Check the latest comments for callbacks """
         if len(self.comment_callbacks) == 0:
             return
-        last_comment = self.last_visited.get(subreddit, None)
+        last_comment = self.last_visited_comment.get(subreddit, None)
         comments = self.reddit.get_comments(
             subreddit=subreddit,
             place_holder=last_comment,
             limit=25
         )
         for comment in comments:
+            self.last_visited_comment[subreddit] = comment.id
             with self.database() as db:
                 editable = EditableContainer(comment)
                 if db.query(Editable).filter(Editable.id==editable.id):
@@ -103,6 +108,7 @@ class Bot:
             limit=25
         )
         for submission in submissions:
+            self.last_visited_submission[subreddit] = submission.id
             with self.database() as db:
                 editable = EditableContainer(submission)
                 if db.query(Editable).filter(Editable.id==editable.id):
