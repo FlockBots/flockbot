@@ -7,11 +7,17 @@ import logging
 class Config:
     
     def __init__(self):
-        pass
+        self.complete = {
+            'oauth': False,
+            'database': False,
+            'logging': False,
+            'subscriptions': False
+        }
 
     def set_oauth_info(self, reddit, oauth_info, refresh_token):        
         reddit.set_oauth_app_info(oauth_info)
         reddit.refresh_access_information(refresh_token)
+        self.complete['oauth'] = True
 
     @property
     def database(self):
@@ -23,6 +29,7 @@ class Config:
         """ Create a sessionmaker """
         database_engine = create_engine('sqlite:///' + filename, echo=False)
         self._database = sessionmaker(bind=database_engine)
+        self.complete['database'] = True
 
 
     def set_logging(self, logfile, level=logging.INFO):
@@ -36,6 +43,7 @@ class Config:
         logger.addHandler(logging.StreamHandler())
         # requests_logger = logging.getLogger('requests')
         # requests_logger.setLevel(logging.WARNING)
+        self.complete['logging'] = True
         return logger
 
     def set_reply_footer(self, footer):
@@ -43,3 +51,4 @@ class Config:
 
     def set_subscriptions(self, subreddits):
         self.subreddits = subreddits
+        self.complete['subscriptions'] = True

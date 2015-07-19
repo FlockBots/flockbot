@@ -36,6 +36,9 @@ class Bot:
             session.close()
 
     def login(self, useragent, oauth_info, refresh_token):
+        useragent = useragent.strip()
+        if not useragent:
+            raise ValueError('Useragent cannot be empty.\nYou should include a small description and your username.')
         self.reddit = praw.Reddit(useragent=useragent)
         self.config.set_oauth_info(self.reddit, oauth_info, refresh_token)
 
@@ -187,3 +190,15 @@ class Bot:
 
         # reset reply text
         self.reply_text = ''
+
+    def run(self, check_messages=True, check_comments=True, check_submissions=True):
+        if not hasattr(self, 'reddit') or not self.reddit.is_oauth_session():
+            raise RuntimeError('User is not logged in.')
+        if not all(self.config.complete.values()):
+            raise RuntimeError('Configuration is not yet complete.\n{}'
+                .format(self.config.complete)
+            )
+        me = self.reddit.get_me()
+        self.logger.info('Running bot')
+        self.logger.info('\tUsername: {}'.format(me.name))
+        self.logger.info('\tSubreddit: {}'.format(self.config.subreddits))
