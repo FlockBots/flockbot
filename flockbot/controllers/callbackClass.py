@@ -16,8 +16,10 @@ class CallbackClass(type):
         if not hasattr(function, '_callbacks'):
             return None
         callbacks = {}
-        for editable, regex in function._callbacks.items():
-            callback = Callback(regex=regex, function=function)
-            callbacks.setdefault(editable, [])\
-                .append(callback)
+        for editable, regices in function._callbacks.items():
+            for regex in regices:
+                print(regex)
+                callback = Callback(regex=regex, function=function)
+                callbacks.setdefault(editable, [])\
+                    .append(callback)
         return callbacks
