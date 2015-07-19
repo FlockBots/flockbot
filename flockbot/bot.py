@@ -1,5 +1,5 @@
 import re
-from flockbot.helpers.decorators import rate_limited
+from flockbot.decorators import rate_limited
 from flockbot.helpers import EditableContainer
 from flockbot.config import Config
 from collections import namedtuple
