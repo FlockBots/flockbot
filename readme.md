@@ -8,7 +8,7 @@ Clone the repository and place the `flockbot` directory in the root of your appl
 Then install the dependencies using pip: `pip install -r requirements.txt`
 
 ### pip
-Easier would be to just run `pip install git+https://github.com/flockbots/flockbot@master`.
+Easier would be to just run `pip install git+https://github.com/flockbots/flockbot`.
 This should pull the dependencies with it right away.
 
 ## Usage
