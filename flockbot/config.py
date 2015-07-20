@@ -63,7 +63,7 @@ class Config:
         return self._subreddits
     
     @subreddits.setter
-    def set_subscriptions(self, subreddits):
+    def subreddits(self, subreddits):
         if not isinstance(subreddits, list):
             raise ValueError('Argument `subreddits` is not a list.')
         self._subreddits = subreddits
