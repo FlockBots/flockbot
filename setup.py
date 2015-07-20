@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='flockbot',
-    version='1.0.4dev',
+    version='1.0.5dev',
     author='Stan Janssen',
     author_email='stanjanssen@outlook.com',
     url='https://github.com/FlockBots/flockbot',
