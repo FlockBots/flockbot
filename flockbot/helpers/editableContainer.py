@@ -27,7 +27,7 @@ class EditableContainer:
         self.permalink = editable.permalink
         self.reply = editable.reply
         self.text  = editable.body
-        self.type  = Editable.Comment
+        self.type  = EditableContainer.Comment
         self.submission = editable.submission
         self.subreddit  = editable.subreddit
 
@@ -35,7 +35,7 @@ class EditableContainer:
         self.permalink = editable.permalink
         self.reply = editable.add_comment
         self.text  = editable.self_text
-        self.type  = Editable.Submission
+        self.type  = EditableContainer.Submission
         self.submission = self.original
         self.subreddit  = editable.subreddit
 
@@ -43,6 +43,6 @@ class EditableContainer:
         self.permalink = None
         self.reply = editable.reply
         self.text  = editable.body
-        self.type  = Editable.Message
+        self.type  = EditableContainer.Message
         self.submission = None
         self.subreddit  = None

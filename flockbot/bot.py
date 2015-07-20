@@ -68,7 +68,7 @@ class Bot:
         total_read = 0
         for message in messages:
             with self.database_context() as db:
-                editable = Editable(message)
+                editable = EditableContainer(message)
                 if db.query(Editable).filter(Editable.id == editable.id):
                     if mark_read:
                         message.mark_as_read()
