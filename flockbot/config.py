@@ -8,6 +8,9 @@ import logging
 class Config:
     
     def __init__(self):
+        self._database = lambda: None
+        self._subreddits = []
+
         self.complete = {
             'oauth': False,
             'database': False,
@@ -55,8 +58,13 @@ class Config:
     def set_reply_footer(self, footer):
         self.footer = footer
 
+    @property
+    def subreddits(self):
+        return self._subreddits
+    
+    @subreddits.setter
     def set_subscriptions(self, subreddits):
         if not isinstance(subreddits, list):
             raise ValueError('Argument `subreddits` is not a list.')
-        self.subreddits = subreddits
+        self._subreddits = subreddits
         self.complete['subscriptions'] = True
