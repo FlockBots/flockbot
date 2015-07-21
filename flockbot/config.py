@@ -10,6 +10,7 @@ class Config:
     def __init__(self):
         self._database = lambda: None
         self._subreddits = []
+        self.footer = ''
 
         self.complete = {
             'oauth': False,
@@ -54,9 +55,6 @@ class Config:
         # requests_logger.setLevel(logging.WARNING)
         self.complete['logging'] = True
         return logger
-
-    def set_reply_footer(self, footer):
-        self.footer = footer
 
     @property
     def subreddits(self):
