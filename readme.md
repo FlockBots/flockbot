@@ -12,8 +12,12 @@ Easier would be to just run `pip install git+https://github.com/flockbots/flockb
 This should pull the dependencies with it right away.
 
 ## Usage
-More info soon, still changing the interface here and there.
+More info soon. Meanwhile checkout [Flockbots/Cigarbot](https://github.com/FlockBots/Cigarbot) to see this package in use.
 
 ## Testing
 A few tests have been added and can be run by typing `python -m unittest`.
 This is far for complete and I should probably focus on adding more first.
+
+## Todo
+First thing to do is add more tests.
+Perhaps a few logging statements for those who want to keep track of the bot as it wanders Reddit.
