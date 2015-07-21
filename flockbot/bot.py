@@ -216,6 +216,7 @@ class Bot:
         self.logger.info('\tSubreddit: {}'.format(self.config.subreddits))
         while True:
             self.loop(check_messages, check_comments, check_submissions)
+            time.sleep(60)
         pass
 
     def loop(self, check_messages=True, check_comments=True, check_submissions=True):
