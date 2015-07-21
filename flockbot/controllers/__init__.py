@@ -1,1 +1,0 @@
-from flockbot.controllers.controller import ControllerMeta

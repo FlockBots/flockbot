@@ -16,6 +16,7 @@ Callback = namedtuple('Callback', ['regex', 'function'])
 
 class Bot:
     def __init__(self, databasefile='data/bot.db', configfile='log/bot.log'):
+        self.controllers = {}
         self.message_callbacks = {}
         self.comment_callbacks = {}
         self.submission_callbacks = {}
@@ -149,28 +150,51 @@ class Bot:
         return has_callback
 
     def attach_controller(self, controller):
-        if not hasattr(controller, 'callbacks'):
-            raise AttributeError('This controller has no registered callbacks.')
-        for editable, callbacks in controller.callbacks.items():
-            for callback in callbacks:
-                if editable == 'submission':
-                    self._register_callback(self.submission_callbacks, callback)
-                elif editable == 'comment':
-                    self._register_callback(self.comment_callbacks, callback)
-                elif editable == 'message':
-                    self._register_callback(self.message_callbacks, callback)
-                else:
-                    raise KeyError('Unknown callback type "{}".'.format(editable))
+        name = controller.__class__.__name__
+        self.controllers[name.lower()] = controller
 
-    def _register_callback(self, container, callback):
-        """ Register a callback in the specified dictionary 
+    def attach_controllers(self, controllers):
+        for controller in controllers:
+            self.attach_controller(controller)
+
+    def register_callback(self, container, regex, callback):
+        """ Register a callback for the specified type
 
             Args:
-                container: dictionary containing regex as keys, functions as values
-                callback: namedtuple containing a regex and a function attribute
+                container: type of object to check for callbacks (i.e. Comment, Message or Submission)
+                           or a list of strings to register for multiple objects
+                regex: string containing valid regex
+                callback: a string referring to the callback in a controller
+                          or a function with the right signature callback(editable, match)
         """
-        container.setdefault(callback.regex, [])\
-                 .append(callback.function)
+        if not hasattr(callback, '__call__'):
+            # get the name of the controller and callback function
+            controller_name, function = callback.split('@')
+
+            # get the instance of the controller, if registered
+            try:
+                controller = self.controllers[controller_name.lower()]
+            except KeyError:
+                self.logger.critical('Controller `{}` has not been registered yet.'.format(controller_name))
+
+            # get the actual callback method on the controller, if it exists
+            try:
+                callback = getattr(controller, function)
+            except AttributeError:
+                self.logger.critical('Controller `{}` has no function named `{}`'.format(controller, function))
+
+        # add it to the dictionary of callbacks
+        self._register_callback(container, regex, callback)
+
+    def register_callbacks(self, containers, regex, callback):
+        for container in containers:
+            self.register_callback(container, regex, callback)
+
+    def _register_callback(self, container, regex, callback):
+        container = container.lower() + '_callbacks'
+        container = getattr(self, container)
+        container.setdefault(regex, [])\
+            .append(callback)
 
     def build_reply(self, text):
         """ Creates a new reply or appends to an existing one. """
