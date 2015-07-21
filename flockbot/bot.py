@@ -69,7 +69,7 @@ class Bot:
         for message in messages:
             with self.database_context() as db:
                 editable = EditableContainer(message)
-                if db.query(Editable).filter(Editable.id == editable.id):
+                if db.query(Editable).filter(Editable.id == editable.id).first():
                     if mark_read:
                         message.mark_as_read()
                     continue
@@ -95,7 +95,7 @@ class Bot:
             self.last_visited_comment[subreddit] = comment.id
             with self.database_context() as db:
                 editable = EditableContainer(comment)
-                if db.query(Editable).filter(Editable.id==editable.id):
+                if db.query(Editable).filter(Editable.id==editable.id).first():
                     continue
 
                 self.check_callbacks(editable, self.comment_callbacks)
@@ -115,7 +115,7 @@ class Bot:
             self.last_visited_submission[subreddit] = submission.id
             with self.database_context() as db:
                 editable = EditableContainer(submission)
-                if db.query(Editable).filter(Editable.id==editable.id):
+                if db.query(Editable).filter(Editable.id==editable.id).first():
                     continue
                 self.check_callbacks(editable, self.submission_callbacks)
                 db.add(Editable(id=editable.id))
