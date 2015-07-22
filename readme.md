@@ -41,7 +41,7 @@ Read more about acquiring oauth information on Reddit in the [praw docs](http://
             def reply_with_joke(self, editable, match):
                 # do something with the comment/submission/message stored in editable
                 # or with the regex match stored in match
-                joke = 'I'm old. Hello "I'm old", I'm dad.'
+                joke = "I'm old. Hello `I'm old`, I'm dad."
                 return joke
 
 4. Registering the callbacks
