@@ -18,7 +18,8 @@ Using this package consists of a few steps.
 
         my_bot = flockbot.Bot(db_filename, log_filename)
 
-2. Configuring it
+2. Configuring it  
+^(Read more about acquiring oauth information on Reddit in the [praw docs](http://praw.readthedocs.org/en/latest/pages/oauth.html).)
 
         my_bot.config.subreddits = ['funny', 'pics']
         my_bot.login(
@@ -30,7 +31,6 @@ Using this package consists of a few steps.
             'oauth_refresh_token'
         )
 
-Read more about acquiring oauth information on Reddit in the [praw docs](http://praw.readthedocs.org/en/latest/pages/oauth.html).
 
 3. Creating callbacks
 
