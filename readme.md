@@ -61,6 +61,8 @@ It is also possible to register a regular function as a callback, as long as it 
 
 If the callback returns a string, the bot will add it to its reply. When all callbacks have been called, it will reply every result in a single comment.
 
+The editable that is passed to the callback is actually a [custom class](https://github.com/FlockBots/flockbot/blob/master/flockbot/helpers/editableContainer.py) holding some common info between the three possible objects.
+
 That's pretty much the gist of it. I do plan on adding some proper documentation some time. In the mean while, if you are still confused check out [Flockbots/Cigarbot](https://github.com/FlockBots/Cigarbot) as an example.
 
 
