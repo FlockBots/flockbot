@@ -16,57 +16,74 @@ Using this package consists of a few steps.
 
 1. Creating a bot instance
 
-        my_bot = flockbot.Bot(db_filename, log_filename)
+   ```python
+   my_bot = flockbot.Bot(db_filename, log_filename)
+   ```
 
 2. Configuring it  
 Read more about acquiring oauth information on Reddit in the [praw docs](http://praw.readthedocs.org/en/latest/pages/oauth.html).
 
-        my_bot.config.subreddits = ['funny', 'pics']
-        my_bot.login(
-            'Some user-agent',
-            {
-                'client_id': 'oauth_client_id',
-                'client_secret': 'oauth_client_secret'
-            },
-            'oauth_refresh_token'
-        )
+   ```python
+   my_bot.config.subreddits = ['funny', 'pics']
+   my_bot.login(
+       'Some user-agent',
+       {
+           'client_id': 'oauth_client_id',
+           'client_secret': 'oauth_client_secret'
+       },
+       'oauth_refresh_token'
+   )
+   ```
 
 
 3. Creating callbacks
 
-        class CallbackController:
-            def __init__(self, some_dependency):
-                self.some_dependency = some_dependency
+   ```python
+   class CallbackController:
+       def __init__(self, some_dependency):
+           self.some_dependency = some_dependency
+   ```
 
-            def reply_with_joke(self, editable, match):
-                # do something with the comment/submission/message stored in editable
-                # or with the regex match stored in match
-                joke = "I'm old. Hello `I'm old`, I'm dad."
-                return joke
+   ```python
+   def reply_with_joke(self, editable, match):
+       # do something with the comment/submission/message stored in editable
+       # or with the regex match stored in match
+       joke = "I'm old. Hello `I'm old`, I'm dad."
+       return joke
+   ```
 
 4. Registering the callbacks
 
-        some_dependency = SomeDependency()
-        my_callbacks = CallbackController(some_dependency)
-        
-        # add the controller instance to the bot
-        my_bot.attach_controller(my_callbacks)
+   ```python
+   some_dependency = SomeDependency()
+   my_callbacks = CallbackController(some_dependency)
+   
+   # add the controller instance to the bot
+   my_bot.attach_controller(my_callbacks)
+   ```
 
-        # register the function with a regular expression.
-        # if it finds a message/submission/comment matching the regex, it will call the function 
-        my_bot.register_callback('message', 'tell me something (funny|amusing)', 'CallbackController@reply_with_joke')
+   ```python
+   # register the function with a regular expression.
+   # if it finds a message/submission/comment matching the regex, it will call the function 
+   my_bot.register_callback('message', 'tell me something (funny|amusing)', 'CallbackController@reply_with_joke')
+   ```
 
 It is also possible to register a regular function as a callback, as long as it accepts two parameters 
 (the editable [comment, submission or message] and regex match [list of strings]).
 
-        def my_callback_func(editable, match):
-            # whatever
+   ```python
+   def my_callback_func(editable, match):
+       # whatever
+   ```
 
-        my_bot.register_callback('comment', '[a-z][0-9]{2}', my_callback_func)
-        
+   ```python
+   my_bot.register_callback('comment', '[a-z][0-9]{2}', my_callback_func)
+   
 If you want to register it for multiple types, you can pass a list instead
 
-        my_bot.register_callback(['comment', 'submission'], '/u/flockbot', my_callback_func) 
+   ```python
+   my_bot.register_callback(['comment', 'submission'], '/u/flockbot', my_callback_func) 
+   ```
 
 If the callback returns a string, the bot will add it to its reply. When all callbacks have been called, it will reply every result in a single comment.
 
