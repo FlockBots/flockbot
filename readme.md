@@ -50,7 +50,7 @@ Read more about acquiring oauth information on Reddit in the [praw docs](http://
         my_callbacks = CallbackController(some_dependency)
         
         # add the controller instance to the bot
-        my_bot.attach_controller(my_callbacks)i
+        my_bot.attach_controller(my_callbacks)
 
         # register the function with a regular expression.
         # if it finds a message/submission/comment matching the regex, it will call the function 
@@ -58,6 +58,15 @@ Read more about acquiring oauth information on Reddit in the [praw docs](http://
 
 It is also possible to register a regular function as a callback, as long as it accepts two parameters 
 (the editable [comment, submission or message] and regex match [list of strings]).
+
+        def my_callback_func(editable, match):
+            # whatever
+
+        my_bot.register_callback('comment', '[a-z][0-9]{2}', my_callback_func)
+        
+If you want to register it for multiple types, you can pass a list instead
+
+        my_bot.register_callback(['comment', 'submission'], '/u/flockbot', my_callback_func) 
 
 If the callback returns a string, the bot will add it to its reply. When all callbacks have been called, it will reply every result in a single comment.
 
