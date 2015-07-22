@@ -15,7 +15,7 @@ Callback = namedtuple('Callback', ['regex', 'function'])
 
 
 class Bot:
-    def __init__(self, databasefile='data/bot.db', configfile='log/bot.log'):
+    def __init__(self, databasefile='bot.db', configfile='bot.log'):
         self.controllers = {}
         self.message_callbacks = {}
         self.comment_callbacks = {}
