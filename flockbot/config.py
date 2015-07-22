@@ -51,8 +51,8 @@ class Config:
         )
         logger = logging.getLogger(__name__)
         logger.addHandler(logging.StreamHandler())
-        # requests_logger = logging.getLogger('requests')
-        # requests_logger.setLevel(logging.WARNING)
+        requests_logger = logging.getLogger('requests')
+        requests_logger.setLevel(logging.WARNING)
         self.complete['logging'] = True
         return logger
 
