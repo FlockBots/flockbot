@@ -42,14 +42,12 @@ Read more about acquiring oauth information on Reddit in the [praw docs](http://
    class CallbackController:
        def __init__(self, some_dependency):
            self.some_dependency = some_dependency
-   ```
 
-   ```python
-   def reply_with_joke(self, editable, match):
-       # do something with the comment/submission/message stored in editable
-       # or with the regex match stored in match
-       joke = "I'm old. Hello `I'm old`, I'm dad."
-       return joke
+       def reply_with_joke(self, editable, match):
+           # do something with the comment/submission/message stored in editable
+           # or with the regex match stored in match
+           joke = "I'm old. Hello `I'm old`, I'm dad."
+           return joke
    ```
 
 4. Registering the callbacks
