@@ -72,11 +72,10 @@ It is also possible to register a regular function as a callback, as long as it 
    ```python
    def my_callback_func(editable, match):
        # whatever
+
+   my_bot.register_callback('comment', '[a-z][0-9]{2}', my_callback_func)
    ```
 
-   ```python
-   my_bot.register_callback('comment', '[a-z][0-9]{2}', my_callback_func)
-   
 If you want to register it for multiple types, you can pass a list instead
 
    ```python
