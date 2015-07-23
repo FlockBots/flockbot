@@ -149,15 +149,14 @@ class Bot:
             self.reply_to(editable)
         return has_callback
 
-    def attach_controller(self, controller):
-        name = controller.__class__.__name__
-        self.controllers[name.lower()] = controller
-
-    def attach_controllers(self, controllers):
+    def attach_controller(self, controllers):
+        if not isinstance(controllers, list):
+            controllers = [controllers]
         for controller in controllers:
-            self.attach_controller(controller)
+            name = controller.__class__.__name__
+            self.controllers[name.lower()] = controller
 
-    def register_callback(self, container, regex, callback):
+    def register_callback(self, containers, regex, callback):
         """ Register a callback for the specified type
 
             Args:
@@ -175,20 +174,21 @@ class Bot:
             try:
                 controller = self.controllers[controller_name.lower()]
             except KeyError:
-                self.logger.critical('Controller `{}` has not been registered yet.'.format(controller_name))
+                self.logger.critical('Controller `{}` has not been attached yet.  Callback not registered.'.format(controller_name))
+                return
 
             # get the actual callback method on the controller, if it exists
             try:
                 callback = getattr(controller, function)
             except AttributeError:
-                self.logger.critical('Controller `{}` has no function named `{}`'.format(controller, function))
+                self.logger.critical('Controller `{}` has no function named `{}`. Callback not registered.'.format(controller, function))
+                return
 
         # add it to the dictionary of callbacks
-        self._register_callback(container, regex, callback)
-
-    def register_callbacks(self, containers, regex, callback):
+        if not isinstance(containers, list):
+            containers = [containers]
         for container in containers:
-            self.register_callback(container, regex, callback)
+            self._register_callback(container, regex, callback)
 
     def _register_callback(self, container, regex, callback):
         container = container.lower() + '_callbacks'
