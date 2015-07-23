@@ -34,7 +34,7 @@ class EditableContainer:
     def _set_submission_properties(self, editable):
         self.permalink = editable.permalink
         self.reply = editable.add_comment
-        self.text  = editable.self_text
+        self.text  = editable.selftext
         self.type  = EditableContainer.Submission
         self.submission = self.original
         self.subreddit  = editable.subreddit
