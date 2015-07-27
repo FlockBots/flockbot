@@ -252,11 +252,15 @@ class Bot:
         except praw.errors.OAuthInvalidToken:
             self.config.refresh(self.reddit)
         except (praw.errors.HTTPException, ConnectionError):
-            self.logging.error('No connection ({})'.format(self.connection_error_count))
+            self.logger.error('No connection ({})'.format(self.connection_error_count))
             self.connection_error_count += 1
             if self.connection_error_count > 5:
                 raise EnvironmentError('Unable to connect.')
             else:
                 time.sleep(600)
-
+         except Exception e:
+             self.logger.exception('Unexpected exception')
+             raise
+         else:
+             self.connection_error_count = 0
 
