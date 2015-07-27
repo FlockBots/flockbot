@@ -258,9 +258,9 @@ class Bot:
                 raise EnvironmentError('Unable to connect.')
             else:
                 time.sleep(600)
-         except Exception:
-             self.logger.exception('Unexpected exception')
-             raise
-         else:
-             self.connection_error_count = 0
+        except Exception:
+            self.logger.exception('Unexpected exception')
+            raise
+        else:
+            self.connection_error_count = 0
 
